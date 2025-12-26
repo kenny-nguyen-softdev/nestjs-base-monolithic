@@ -1,0 +1,32 @@
+image: atlassian/default-image:3
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: Build and Push Docker Image
+          services:
+            - docker
+          script:
+            - echo "-> Logging into Docker Hub..."
+            - '[ -z "$DOCKER_PASSWORD" ] && echo "ERR: Biến DOCKER_PASSWORD not  set!" && exit 1'
+            - '[ -z "$DOCKER_USER" ] && echo "ERR:  DOCKER_USER not set set!" && exit 1'
+            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+            #  define name image and tag
+            - export BUILD_TAG=$(git rev-parse --short=8 HEAD)
+            - docker build -f Dockerfile -t ${DOCKER_IMAGE_NAME}:${BUILD_TAG} .
+            #  push image
+            - echo "-> Pushing image to Docker Hub..."
+            - docker push ${DOCKER_IMAGE_NAME}:${BUILD_TAG}
+            # clean image 
+            - docker image prune -f
+      - step:
+          name: Deploy to DEV Server
+          deployment: development
+          script:
+            - echo "$SSH_PRIVATE_KEY" | base64 --decode > dev.pem
+            - chmod 600 dev.pem
+            - echo " -> PUBLIC KEY USED IN SERVER <- "
+            - cat dev.pem | ssh-keygen -y -f /dev/stdin
+            - export BUILD_TAG=$(git rev-parse --short=8 HEAD)
+            - ssh -o StrictHostKeyChecking=no -o BatchMode=yes -i dev.pem "$DEPLOY_USER@$DEPLOY_HOST" "cd /opt/main/api.liemlan.galloptech.net && bash ./deploy.docker.sh dev $BUILD_TAG"
+    
