@@ -128,7 +128,7 @@ $ npm run prepare         # Prepare Husky (Git hooks setup)
 
 ---
 
-### 🔁 Structure
+### 📂 Project Structure
 
 ```bash
 $ LiemLanProjectBE
