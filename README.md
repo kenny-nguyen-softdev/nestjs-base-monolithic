@@ -128,6 +128,42 @@ $ npm run prepare         # Prepare Husky (Git hooks setup)
 
 ---
 
+### 🔁 Structure
+
+```bash
+$ LiemLanProjectBE
+$ ├── .eslintrc.js                # Cấu hình ESLint
+$ ├── .prettierrc.js              # Cấu hình Prettier
+$ ├── README.md                   # Tài liệu dự án
+$ ├── nest-cli.json               # Cấu hình CLI NestJS
+$ ├── package.json                # Khai báo dependencies
+$ ├── tsconfig.json               # Cấu hình TypeScript
+$ ├── src                         # Mã nguồn chính
+$ │   ├── app.controller.ts        # Controller chính
+$ │   ├── app.module.ts            # Module gốc
+$ │   ├── app.service.ts           # Service chính
+$ │   ├── core
+$ │   │   ├── config               # Cấu hình
+$ │   │   ├── constant             # Hằng số toàn cục
+$ │   │   ├── database             # Cấu hình cơ sở dữ liệu
+$ │   │   ├── decorators           # Decorator tùy chỉnh
+$ │   │   ├── guards               # Bảo mật và phân quyền
+$ │   │   ├── helpers              # Hàm tiện ích
+$ │   │   ├── middlewares          # Middleware
+$ │   │   ├── pipes                # Xử lý dữ liệu
+$ │   │   ├── services             # Dịch vụ dùng chung
+$ │   │   ├── types                # Định nghĩa kiểu dữ liệu
+$ │   │   └── utils                # Hàm tiện ích
+$ │   ├── main.ts                 # Điểm khởi chạy
+$ │   ├── migrations              # Migrations cơ sở dữ liệu
+$ │   ├── seeds                   # Seed dữ liệu
+$ │   ├── auth                    # Module xác thực
+$ │   ├── file                    # Module xử lý tệp
+$ │   └── user                    # Module người dùng
+```
+
+---
+
 # FilteringParams Decorator
 
 The `FilteringParams` decorator enables frontend developers to apply filtering and sorting capabilities to API endpoints by passing parameters in the query string.
